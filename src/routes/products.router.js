@@ -3,40 +3,6 @@ import ProductModel from "../models/products.model.js";
 
 const productRouter = Router();
 
-productRouter.get('/chatgpt', async (req, res) => {
-    try {
-      // Obtener parámetros de consulta
-      const { page = 1, limit = 10, sort = 'name:asc', ...filters } = req.query;
-  
-      // Convertir 'page' y 'limit' a enteros
-      const pageNum = parseInt(page, 10);
-      const limitNum = parseInt(limit, 10);
-  
-      // Convertir el parámetro de ordenación en un objeto
-      const sortOptions = {};
-      
-      if (sort) {
-        
-        const [sortField, sortOrder] = sort.split(':');
-        sortOptions[sortField] = sortOrder === 'desc' ? -1 : 1;
-      }
-  
-      // Configurar opciones de paginación y ordenación
-      const options = {
-        page: pageNum,
-        limit: limitNum,
-        sort: sortOptions,
-      };
-  
-      // Consulta con filtros opcionales
-      const result = await ProductModel.paginate(filters, options);
-  
-      res.json(result);
-    } catch (err) {
-      res.status(500).send('Error al obtener productos');
-    }
-  });
-
 productRouter.get("/products", async (req, res) => {
     try{
       const limit = parseInt(req.query.limit, 10) || 10;
